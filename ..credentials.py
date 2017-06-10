@@ -1,0 +1,5 @@
+USER = 'SeriouslyWhenIsHl3'
+PASS = 'audiophilecabbageproductionrights'
+CLIENT_ID = 'HwFbBfMZxDNqmw'
+CLIENT_SECRET = '_OrhXhtbmZoDzb79-ot6RZuuDTU'
+USER_AGENT = 'Half Life 3 Mention Counter'
