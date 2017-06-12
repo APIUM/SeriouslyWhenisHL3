@@ -131,7 +131,7 @@ def checkDisabledRequests():
                             disabledSubs.append(subToDisable)
                             pickle.dump(disabledSubs, open("disabledSubs.p","wb"))
                             print("Added %s to disabledSubs" % (subToDisable))
-                            item.reply("%s moved to disabled list" % (subToDisable)
+                            item.reply("%s moved to disabled list" % (subToDisable))
                         else:
                             if debug:
                                 print("Found subToDisable match, but already processed")
