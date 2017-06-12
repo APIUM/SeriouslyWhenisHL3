@@ -12,11 +12,11 @@ reddit = praw.Reddit(client_id=CLIENT_ID,client_secret=CLIENT_SECRET,user_agent=
 
 #***** Other config *****#
 # Set True if you want to only check 1 sub
-useSubList = True
+useSubList = False
 # Use this if you don't want to comment
 dryRun = False
 # Prints lines for a lot of things
-debug = True
+debug = False
 # Comment is in commenting function below
 #************************#
 
@@ -77,7 +77,7 @@ def replyComment(comment):
     # Well it will be too late, but this is a better time interval
     checkDisabledRequests()
     # Set this to what you want your comment to be
-    commentPhrase = "By mentioning Half-Life 3 you have delayed it by 1 Month. Half-Life 3 is now estimated for release in %s.\n___\n^I ^am ^a ^bot, ^this ^action ^was ^performed ^automatically. ^To ^disable ^WIHL3 ^on ^your ^sub ^please ^see ^/r/WhenIsHl3. ^To ^never ^have ^WIHL3 ^reply ^to ^your ^comments ^pm ^'!STOP'." % (releasestrf())
+    commentPhrase = "By mentioning Half-Life 3 you have delayed it by 1 Month. Half-Life 3 is now estimated for release in %s.\n___\n^I ^am ^a ^bot, ^this ^action ^was ^performed ^automatically. ^To ^disable ^WIHL3 ^on ^your ^sub ^please ^see ^/r/WhenIsHl3. ^To ^never ^have ^WIHL3 ^reply ^to ^your ^comments ^PM ^'!STOP'." % (releasestrf())
     if dryRun:
         print("\tDry run: replying to %s by %s" % (comment.id, comment.author.name))
     else:
@@ -85,6 +85,7 @@ def replyComment(comment):
             print("Attempting to reply to %s" % (comment.id))
             print(commentPhrase)
         comment.reply(commentPhrase)
+        print("Replied to " + comment.id)
         if debug: 
             print("Reply Success")
 
@@ -103,6 +104,7 @@ def checkDisabledRequests():
                 disabledUsers.append(repr(item.author.name))
                 pickle.dump(disabledUsers, open("disabledUsers.p","wb"))
                 print("Added %s to disabledUsers" % (repr(item.author.name)))
+                item.reply("Added %s to disabled user list" % (repr(item.author.name)))
             else:
                 if debug:
                     print("Found stop match, but already processed")
@@ -129,6 +131,7 @@ def checkDisabledRequests():
                             disabledSubs.append(subToDisable)
                             pickle.dump(disabledSubs, open("disabledSubs.p","wb"))
                             print("Added %s to disabledSubs" % (subToDisable))
+                            item.reply("%s moved to disabled list" % (subToDisable)
                         else:
                             if debug:
                                 print("Found subToDisable match, but already processed")
@@ -184,7 +187,7 @@ def findKeyword():
 
 
 
-for i in range(20):
+for i in range(100):
     try:
         print("Program starting.\nDebug: %s\nDry Run: %s\nUsing Sub List: %s" % (debug, dryRun, useSubList))
         print("-----\n")
