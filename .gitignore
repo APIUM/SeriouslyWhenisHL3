@@ -2,3 +2,5 @@
 credentials.py
 
 __pycache__
+
+*.p
