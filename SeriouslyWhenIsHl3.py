@@ -123,7 +123,7 @@ def checkDisabledRequests():
                     print("SubArray: ")
                     print(subArray)
                     print("subToDisable: " + subToDisable)
-                    print("Moderators of %s that can match %s:" % (subToDiable, repr(item.author.name).replace("'",""))
+                    print("Moderators of %s that can match %s:" % (subToDiable, repr(item.author.name).replace("'","")))
                 for moderator in reddit.subreddit(subToDisable).moderator():
                     if debug:
                         print(moderator)
