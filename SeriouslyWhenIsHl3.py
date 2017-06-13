@@ -91,23 +91,24 @@ def replyComment(comment):
 
 def checkDisabledRequests():
     if debug:
-        print("Checking messages for stop requests")
+        print("Checking messages for stop requests\n---")
     for item in reddit.inbox.all(limit=None):
         if debug:
             print("Does body == !STOP")
             print(repr(item.body) == "'!STOP'")
         if repr(item.body) == "'!STOP'":
-            print("Matched message with !STOP")
             # Loads pickle file for disabled users
             disabledUsers = pickle.load(open("disabledUsers.p", "rb"))
             if repr(item.author.name).replace("'","") not in disabledUsers:
                 disabledUsers.append(repr(item.author.name).replace("'",""))
                 pickle.dump(disabledUsers, open("disabledUsers.p","wb"))
                 print("Added %s to disabledUsers" % (repr(item.author.name)))
-                item.reply("Added %s to disabled user list" % (repr(item.author.name)))
+                item.reply("Hey %s,\n You've been added to the disabled user list.\nThanks,\n%s." % (repr(item.author.name), USER))
             else:
                 if debug:
-                    print("Found stop match, but already processed")
+                    print("Found disable user request for %s, but already processed" % (repr(item.author.name))
+        # Have to remove the quotes from the sub name for correct matchin
+        # Then split based on the @
         subArray = repr(item.body).replace("'","").split("@")
         if debug:
             print("^^^")
@@ -115,8 +116,6 @@ def checkDisabledRequests():
         if len(subArray) == 2:
             if debug:
                 print("len is 2")
-            else:
-                print("Wrong length")
             if subArray[0] == '!STOP':
                 subToDisable = subArray[1].replace("/r/","")
                 # Get rid of possible /r/
@@ -133,13 +132,17 @@ def checkDisabledRequests():
                             disabledSubs.append(subToDisable)
                             pickle.dump(disabledSubs, open("disabledSubs.p","wb"))
                             print("Added %s to disabledSubs" % (subToDisable))
-                            item.reply("%s moved to disabled list" % (subToDisable))
+                            # Message to send the moderator who send the message
+                            item.reply("Hey %s,\nThanks for taking the time to message me, %s has been added to the disabled list.\nRegards,\n%s." % (repr(item.author.name),subToDisable,USER))
                         else:
                             if debug:
-                                print("Found subToDisable match, but already processed")
+                                print("Found disable sub match for %s, but already processed" % (subToDisable))
                     else:
                         if debug:
                             print("Moderator %s did not match %s" % (moderator, repr(item.author.name)))
+        else:
+            if debug:
+                print("Message is wrong length to be sub disable request.")
 
                 
 
