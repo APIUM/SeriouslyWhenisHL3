@@ -100,8 +100,8 @@ def checkDisabledRequests():
             print("Matched message with !STOP")
             # Loads pickle file for disabled users
             disabledUsers = pickle.load(open("disabledUsers.p", "rb"))
-            if repr(item.author.name) not in disabledUsers:
-                disabledUsers.append(repr(item.author.name))
+            if repr(item.author.name).replace("'","") not in disabledUsers:
+                disabledUsers.append(repr(item.author.name).replace("'",""))
                 pickle.dump(disabledUsers, open("disabledUsers.p","wb"))
                 print("Added %s to disabledUsers" % (repr(item.author.name)))
                 item.reply("Added %s to disabled user list" % (repr(item.author.name)))
@@ -118,10 +118,12 @@ def checkDisabledRequests():
             else:
                 print("Wrong length")
             if subArray[0] == '!STOP':
-                subToDisable = subArray[1]
+                subToDisable = subArray[1].replace("/r/","")
+                # Get rid of possible /r/
                 if debug:
+                    print("SubArray: ")
                     print(subArray)
-                    print(subToDisable)
+                    print("subToDisable: " + subToDisable)
                 for moderator in reddit.subreddit(subToDisable).moderator():
                     print(moderator)
                     if moderator == repr(item.author.name).replace("'",""):
@@ -156,8 +158,11 @@ def findKeyword():
                 if comment.id not in processedComments:
                     # Loads pickle file for disabled users
                     disabledUsers = pickle.load(open("disabledUsers.p", "rb"))
+                    if debug:
+                        print("Comparing comment author: %s with disabled user list" % (comment.author.name.replace("'","")))
+                        print(disabledUsers)
                     # Checks for opt-outed users
-                    if comment.author.name not in disabledUsers:
+                    if comment.author.name.replace("'","") not in disabledUsers:
                         # Loads pickle file for disabled subs
                         disabledSubs = pickle.load(open("disabledSubs.p", "rb"))
                         # Checks for opt-outed subs
