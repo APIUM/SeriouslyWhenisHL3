@@ -106,9 +106,9 @@ def checkDisabledRequests():
                 item.reply("Hey %s,\n You've been added to the disabled user list.\nThanks,\n%s." % (repr(item.author.name), USER))
             else:
                 if debug:
-                    print("Found disable user request for %s, but already processed" % (repr(item.author.name))
+                    print("Found disable user request for %s, but already processed" % (repr(item.author.name)))
         # Have to remove the quotes from the sub name for correct matchin
-        # Then split based on the @
+        # Then split based on the at symbol
         subArray = repr(item.body).replace("'","").split("@")
         if debug:
             print("^^^")
