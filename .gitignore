@@ -1,6 +1,6 @@
 # Don't want passwords 
 credentials.py
 
-__pycache__
+__pycache__/
 
 *.p
