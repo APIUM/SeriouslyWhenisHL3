@@ -123,8 +123,10 @@ def checkDisabledRequests():
                     print("SubArray: ")
                     print(subArray)
                     print("subToDisable: " + subToDisable)
+                    print("Moderators of %s that can match %s:" % (subToDiable, repr(item.author.name).replace("'",""))
                 for moderator in reddit.subreddit(subToDisable).moderator():
-                    print(moderator)
+                    if debug:
+                        print(moderator)
                     if moderator == repr(item.author.name).replace("'",""):
                         # Loads pickle file for disabled subs
                         disabledSubs = pickle.load(open("disabledSubs.p", "rb"))
