@@ -178,7 +178,7 @@ This bot is open source and avaliable on Github @ www.github.com/apium/Seriously
 
 ___
 
-*Half Life 3 is set to release on %s!*
+**Half Life 3 is set to release in %s!**
 """ % (releasestrf())
     # Subreddit is defined in top config as 'botSub'
     reddit.subreddit(botSub).mod.update(description=sidebarContent)
