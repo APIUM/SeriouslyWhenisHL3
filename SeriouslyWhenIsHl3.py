@@ -18,6 +18,9 @@ dryRun = False
 # Prints lines for a lot of things
 debug = False
 # Comment is in commenting function below
+# botSub is the subreddit of the bot
+# Used to post to the sidebar
+botSub = 'WhenIsHl3'
 #************************#
 
 # Key Configuration
@@ -88,6 +91,10 @@ def replyComment(comment):
         print("Replied to " + comment.id)
         if debug: 
             print("Reply Success")
+        updateSidebar()
+        if debug:
+            print("Updated %s sidebar with release" % (botSub))
+
 
 def checkDisabledRequests():
     if debug:
@@ -147,6 +154,16 @@ def checkDisabledRequests():
                 print("Message is wrong length to be sub disable request.")
 
                 
+# Update the sidebar on /r/WhenIsHl3 with the current
+# Realease date
+def updateSidebar():
+    # Subreddit is defined in top config as 'botSub'
+    # Settting is the subreddit settings object
+    settings = reddit.get_settings(botSub)
+    sidebar_contents = settings['description']
+    sidebar_contents += "\n\nHalf Life 3 is set to release on %s!" % (releasestrf())
+    reddit.update_settings(reddit.get_subreddit(botSub), description=sidebar_contents)
+
 
 
 # The not-so-grand finale
