@@ -14,33 +14,13 @@ reddit = praw.Reddit(client_id=CLIENT_ID,client_secret=CLIENT_SECRET,user_agent=
 # Set True if you want to only check 1 sub
 useSubList = False
 # Use this if you don't want to comment
-dryRun = True
+dryRun = False
 # Prints lines for a lot of things
 debug = False
 # Comment is in commenting function below
 # botSub is the subreddit of the bot
 # Used to post to the sidebar
 botSub = 'WhenIsHl3'
-# Sidebar for sub
-sidebarBase = """
-We're back! And better than ever! It's great to see you here, unless you're a mod who doesn't want the bot on their sub, then it's just disapointing...
-
-But to get the bot off your sub just PM it:
-
-    !STOP@yourSubreddit
-
-where yourSubreddit is the name of your sub, eg: WhenIsHl3 if your sub is /r/WhenIsHL3
-
-
-
-You must be a mod of the subreddit for it to add it to the database!
-___
-
-
-For those interested, the start date for the bot was February 2015. But the revive date was June 2017. It's been a while....
-
-This bot is open source and avaliable on Github @ www.github.com/apium/SeriouslyWhenisHl3
-"""
 
 #************************#
 
@@ -151,7 +131,7 @@ def checkDisabledRequests():
                     print("SubArray: ")
                     print(subArray)
                     print("subToDisable: " + subToDisable)
-                    print("Moderators of %s that can match %s:" % (subToDiable, repr(item.author.name).replace("'","")))
+                    print("Moderators of %s that can match %s:" % (subToDisable, repr(item.author.name).replace("'","")))
                 for moderator in reddit.subreddit(subToDisable).moderator():
                     if debug:
                         print(moderator)
@@ -178,12 +158,30 @@ def checkDisabledRequests():
 # Update the sidebar on /r/WhenIsHl3 with the current
 # Realease date
 def updateSidebar():
+# Sidebar for sub
+    sidebarContent = """
+We're back! And better than ever! It's great to see you here, unless you're a mod who doesn't want the bot on their sub, then it's just disapointing...
+    
+But to get the bot off your sub just PM it:
+    
+    !STOP@yourSubreddit
+    
+where yourSubreddit is the name of your sub, eg: WhenIsHl3 if your sub is /r/WhenIsHL3
+
+You must be a mod of the subreddit for it to add it to the database!
+___
+
+
+For those interested, the start date for the bot was February 2015. But the revive date was June 2017. It's been a while....
+
+This bot is open source and avaliable on Github @ www.github.com/apium/SeriouslyWhenisHl3
+
+___
+
+*Half Life 3 is set to release on %s!*
+""" % (releasestrf())
     # Subreddit is defined in top config as 'botSub'
-    # Settting is the subreddit settings object
-    settings = reddit.get_settings(botSub)
-    sidebar_contents = sidebarBase
-    sidebar_contents += "\n\n*Half Life 3 is set to release on %s!*" % (releasestrf())
-    reddit.update_settings(reddit.get_subreddit(botSub), description=sidebar_contents)
+    reddit.subreddit(botSub).mod.update(description=sidebarContent)
 
 
 
