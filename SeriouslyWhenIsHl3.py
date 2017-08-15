@@ -26,7 +26,7 @@ botSub = 'WhenIsHl3'
 
 # Key Configuration
 subredditList = 'test' # Limited to 1 sub currently 
-keywords = ['hl3', 'half-life 3', 'half life 3', 'hl3', 'half-life three', 'half life three'] # Keyword use is unlimited
+keywords = [' hl3', 'half-life 3', 'half life 3', 'hl3', 'half-life three', 'half life three'] # Keyword use is unlimited
 
 # If pickle files don't exist, create them
 # processedComments.p
@@ -203,7 +203,10 @@ def findKeyword():
                         print("Comparing comment author: %s with disabled user list" % (comment.author.name.replace("'","")))
                         print(disabledUsers)
                     # Checks for opt-outed users
-                    if comment.author.name.replace("'","") not in disabledUsers:
+                    if comment.author.name.replace("'","") == "HalfLife3IsNever":
+                        print("Replying to HlfLife3IsNever because otherwise we'll be banned again")
+                        replyComment("I'm sorry friend, but I can't support this...)
+                    if comment.author.name.replace("'","") not in disabledUsers and comment.author.name.replace("'","") != "HalfLife3IsNever":
                         # Loads pickle file for disabled subs
                         disabledSubs = pickle.load(open("disabledSubs.p", "rb"))
                         # Checks for opt-outed subs
@@ -233,7 +236,7 @@ def findKeyword():
 
 
 
-for i in range(100):
+while True:
     try:
         print("Program starting.\nDebug: %s\nDry Run: %s\nUsing Sub List: %s" % (debug, dryRun, useSubList))
         print("-----\n")
