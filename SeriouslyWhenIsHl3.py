@@ -205,7 +205,7 @@ def findKeyword():
                     # Checks for opt-outed users
                     if comment.author.name.replace("'","") == "HalfLife3IsNever":
                         print("Replying to HlfLife3IsNever because otherwise we'll be banned again")
-                        replyComment("I'm sorry friend, but I can't support this...)
+                        replyComment("I'm sorry friend, but I can't support this...")
                     if comment.author.name.replace("'","") not in disabledUsers and comment.author.name.replace("'","") != "HalfLife3IsNever":
                         # Loads pickle file for disabled subs
                         disabledSubs = pickle.load(open("disabledSubs.p", "rb"))
